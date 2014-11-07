@@ -1,0 +1,94 @@
+﻿<Window
+	x:Class="RepeatableTask.Sample.AppView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:own="clr-namespace:RepeatableTask.Sample">
+
+	<Window.Resources>
+		<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+		<own:CommandReference x:Key="ContextTask1StartCommandReference" Command="{Binding ContextTask1.StartCommand}" />
+		<own:CommandReference x:Key="ContextTask2StartCommandReference" Command="{Binding ContextTask2.StartCommand}" />
+		<own:CommandReference x:Key="ContextTask3StartCommandReference" Command="{Binding ContextTask3.StartCommand}" />
+		<ContextMenu x:Key="ListItemMenu">
+			<ContextMenu.Items>
+				<MenuItem
+						Command="{StaticResource ContextTask1StartCommandReference}"
+						CommandParameter="{Binding Path=PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+						Header="Action1"/>
+				<MenuItem
+						Command="{StaticResource ContextTask2StartCommandReference}"
+						CommandParameter="{Binding Path=PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+						Header="Action2"/>
+				<MenuItem
+						Command="{StaticResource ContextTask3StartCommandReference}"
+						CommandParameter="{Binding Path=PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+						Header="Action3"/>
+			</ContextMenu.Items>
+		</ContextMenu>
+	</Window.Resources>
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="180" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<Menu Grid.Row="0">
+			<MenuItem Header="File">
+				<MenuItem Command="{Binding WorkTask1.StartCommand}" Header="Work1"/>
+				<MenuItem Command="{Binding WorkTask2.StartCommand}" Header="Work2"/>
+			</MenuItem>
+			<MenuItem Header="Help">
+				<MenuItem Header="About"/>
+			</MenuItem>
+		</Menu>
+		<WrapPanel Grid.Row="1">
+			<Button Command="{Binding LoadDataTask.StartCommand}">Load</Button>
+			<Button Command="{Binding WorkTask1.StartCommand}" Margin="18,0,3,0">Work1</Button>
+			<Button Command="{Binding WorkTask2.StartCommand}" Margin="0,0,3,0">Work2</Button>
+			<Button Command="{Binding WorkTask3.StartCommand}" Margin="0,0,3,0">Work3</Button>
+			<Button Command="{Binding WorkTask1.StopCommand}" Margin="6,0,3,0">Cancel</Button>
+		</WrapPanel>
+		<TextBlock Grid.Row="2"
+			Visibility="{Binding Path=WorkTask1.IsRunning, Converter={StaticResource BooleanToVisibilityConverter}}">
+			Подождите, идёт выполнение задания Work1
+		</TextBlock>
+		<TextBlock Grid.Row="2"
+			Visibility="{Binding Path=WorkTask2.IsRunning, Converter={StaticResource BooleanToVisibilityConverter}}">
+			Подождите, идёт выполнение задания Work2
+		</TextBlock>
+		<TextBlock Grid.Row="2"
+			Visibility="{Binding Path=WorkTask3.IsRunning, Converter={StaticResource BooleanToVisibilityConverter}}">
+			Подождите, идёт выполнение задания Work3
+		</TextBlock>
+		<ListView Grid.Row="3" ItemsSource="{Binding Path=DataList}">
+			<ListView.ItemContainerStyle>
+				<Style TargetType="{x:Type ListViewItem}">
+					<Setter Property="ContextMenu" Value="{StaticResource ListItemMenu}" />
+				</Style>
+			</ListView.ItemContainerStyle>
+			<ListView.View>
+				<GridView>
+					<GridView.Columns>
+						<GridViewColumn DisplayMemberBinding="{Binding Path=ID}">
+							<GridViewColumnHeader Command="{Binding SortListCommand}" CommandParameter="ID" Content="ID" />
+						</GridViewColumn>
+						<GridViewColumn DisplayMemberBinding="{Binding Path=IsMarked}">
+							<GridViewColumnHeader Command="{Binding SortListCommand}" CommandParameter="IsMarked" Width="30" Content="✔" />
+						</GridViewColumn>
+						<GridViewColumn DisplayMemberBinding="{Binding Path=Name}">
+							<GridViewColumnHeader Command="{Binding SortListCommand}" CommandParameter="Name" Width="170" Content="Файл" />
+						</GridViewColumn>
+					</GridView.Columns>
+				</GridView>
+			</ListView.View>
+		</ListView>
+		<StackPanel Orientation="Vertical" Grid.Row="4">
+			<TextBlock>Журнал событий</TextBlock>
+			<ListView ItemsSource="{Binding Path=EventLog}" />
+		</StackPanel>
+	</Grid>
+
+</Window>

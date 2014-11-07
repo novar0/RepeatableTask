@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<package >
+	<metadata>
+		<id>RepeatableTask</id>
+		<version>0.2.0</version>
+		<authors>Novar</authors>
+		<projectUrl>https://github.com/novar0/RepeatableTask</projectUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>Async and linked commands for MVVM pattern</description>
+		<summary>Library containing commands for MVVM pattern. Optionally asynchronous or linked in groups.</summary>
+	</metadata>
+</package>
