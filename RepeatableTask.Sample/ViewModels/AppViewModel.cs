@@ -22,7 +22,7 @@ namespace RepeatableTask.Sample
 		private readonly CommandedRepeatableTask _contextTask1;
 		private readonly CommandedRepeatableTask _contextTask2;
 		private readonly CommandedRepeatableTask _contextTask3;
-		private readonly RelayCommand<object> _sortListCommand;
+		private readonly ChainedRelayCommand<object> _sortListCommand;
 		private readonly Func<DataRecord> _dataRecordFactory;
 		private readonly Func<IConfirmationView> _confirmationViewFactory;
 		private readonly IList<DataRecord> _dataList;
@@ -39,7 +39,7 @@ namespace RepeatableTask.Sample
 		public CommandedRepeatableTask ContextTask1 { get { return _contextTask1; } }
 		public CommandedRepeatableTask ContextTask2 { get { return _contextTask2; } }
 		public CommandedRepeatableTask ContextTask3 { get { return _contextTask3; } }
-		public RelayCommand<object> SortListCommand { get { return _sortListCommand; } }
+		public ChainedRelayCommand<object> SortListCommand { get { return _sortListCommand; } }
 		public IEnumerable<DataRecord> DataList { get { return _dataList; } }
 
 		#endregion
@@ -90,7 +90,7 @@ namespace RepeatableTask.Sample
 			_contextTask3.TaskStarted += (sender, args) => ContextTaskStarted (sender, args, "action 3");
 			_contextTask3.TaskEnded += (sender, args) => ContextTaskEnded (sender, args, "action 3");
 
-			_sortListCommand = new RelayCommand<object> (arg => SortList ((string)arg));
+			_sortListCommand = new ChainedRelayCommand<object> (arg => SortList ((string)arg));
 
 			_dataList = new List<DataRecord> ();
 

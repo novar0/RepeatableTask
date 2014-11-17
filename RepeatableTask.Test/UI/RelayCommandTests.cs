@@ -49,7 +49,7 @@ namespace BusinessClassLibrary.Test
 		{
 			_canExecuteCalls = new List<string> ();
 			_executeCalls = new List<string> ();
-			var cmd = new RelayCommand<string> (Execute2, CanExecute2);
+			var cmd = new ChainedRelayCommand<string> (Execute2, CanExecute2);
 			Assert.AreEqual (0, _canExecuteCalls.Count);
 			Assert.AreEqual (0, _executeCalls.Count);
 			Assert.IsTrue (cmd.CanExecute ("123"));

@@ -80,7 +80,7 @@ namespace BusinessClassLibrary.UI
 	/// Может быть частью цепи связанных команд.
 	/// </summary>
 	/// <typeparam name="T">Тип параметра команды.</typeparam>
-	public class RelayCommand<T> : ChainedCommandBase
+	public class ChainedRelayCommand<T> : ChainedCommandBase
 	{
 		private readonly Action<T> _execute;
 		private readonly Func<T, bool> _canExecute;
@@ -95,7 +95,7 @@ namespace BusinessClassLibrary.UI
 		[System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Design",
 			"CA1026:DefaultParametersShouldNotBeUsed",
 			Justification = "Parameter have clear right 'default' value and there is no plausible reason why the default might need to change.")]
-		public RelayCommand (Action<T> execute, Func<T, bool> canExecute = null)
+		public ChainedRelayCommand (Action<T> execute, Func<T, bool> canExecute = null)
 			: base (null)
 		{
 			if (execute == null)
@@ -120,7 +120,7 @@ namespace BusinessClassLibrary.UI
 		[System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Design",
 			"CA1026:DefaultParametersShouldNotBeUsed",
 			Justification = "Parameter have clear right 'default' value and there is no plausible reason why the default might need to change.")]
-		public RelayCommand (CommandChain commandChain, Action<T> execute, Func<T, bool> canExecute)
+		public ChainedRelayCommand (CommandChain commandChain, Action<T> execute, Func<T, bool> canExecute)
 			: base (commandChain)
 		{
 			_execute = execute;

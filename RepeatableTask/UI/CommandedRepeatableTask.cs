@@ -13,11 +13,11 @@ namespace BusinessClassLibrary.UI
 	public class CommandedRepeatableTask : RepeatableTask,
 		INotifyPropertyChanged
 	{
-		private readonly RelayCommand<object> _startCommand;
+		private readonly ChainedRelayCommand<object> _startCommand;
 		private readonly ChainedRelayCommand _stopCommand;
 
 		/// <summary>Получает команду запуска задачи.</summary>
-		public RelayCommand<object> StartCommand { get { return _startCommand; } }
+		public ChainedRelayCommand<object> StartCommand { get { return _startCommand; } }
 
 		/// <summary>Получает команду остановки задачи.</summary>
 		public ChainedRelayCommand StopCommand { get { return _stopCommand; } }
@@ -37,7 +37,7 @@ namespace BusinessClassLibrary.UI
 			Contract.EndContractBlock ();
 
 			var startChain = new CommandChain (false, ExecutionAbilityChainBehavior.WhenAll);
-			_startCommand = new RelayCommand<object> (startChain, StartInternal, CanStart);
+			_startCommand = new ChainedRelayCommand<object> (startChain, StartInternal, CanStart);
 
 			var stopChain = new CommandChain (true, ExecutionAbilityChainBehavior.WhenAny);
 			_stopCommand = new ChainedRelayCommand (stopChain, Cancel, CanCancel);
@@ -62,7 +62,7 @@ namespace BusinessClassLibrary.UI
 			Contract.EndContractBlock ();
 
 			var startChain = new CommandChain (false, ExecutionAbilityChainBehavior.WhenAll);
-			_startCommand = new RelayCommand<object> (startChain, StartInternal, CanStart);
+			_startCommand = new ChainedRelayCommand<object> (startChain, StartInternal, CanStart);
 
 			var stopChain = new CommandChain (true, ExecutionAbilityChainBehavior.WhenAny);
 			_stopCommand = new ChainedRelayCommand (stopChain, Cancel, CanCancel);
@@ -87,7 +87,7 @@ namespace BusinessClassLibrary.UI
 			}
 			Contract.EndContractBlock ();
 
-			_startCommand = new RelayCommand<object> (previousTask._startCommand.Chain, StartInternal, CanStart);
+			_startCommand = new ChainedRelayCommand<object> (previousTask._startCommand.Chain, StartInternal, CanStart);
 			_stopCommand = new ChainedRelayCommand (previousTask._stopCommand.Chain, Cancel, CanCancel);
 		}
 
@@ -117,7 +117,7 @@ namespace BusinessClassLibrary.UI
 			}
 			Contract.EndContractBlock ();
 
-			_startCommand = new RelayCommand<object> (previousTask._startCommand.Chain, StartInternal, CanStart);
+			_startCommand = new ChainedRelayCommand<object> (previousTask._startCommand.Chain, StartInternal, CanStart);
 			_stopCommand = new ChainedRelayCommand (previousTask._stopCommand.Chain, Cancel, CanCancel);
 		}
 
